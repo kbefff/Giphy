@@ -1,86 +1,53 @@
-   // Example queryURL for Giphy API
-
-   function createTopics() {
-       var topic = ["riverdale", "archie", "betty", "veronica", "jughead"];
-       
-    
-       
-       function myFunction(){
+var apiKey = "&api_key=dc6zaTOxFJmzC";
 
 
-       }
-       topic.forEach(element => {
-        $b = $('<button>').attr()
-       });
+function createTopics() {
+    var topic = ["riverdale", "archie", "betty", "veronica", "jughead"];
+    for (var i = 0; i < topic.length; i++) {
+        var topicButton = $("<button>");
+        topicButton.addClass("topic-button");
+        topicButton.attr("data-topic", topic[i]);
+        topicButton.text(topic[i]);
+        $('#button-space').append(topicButton);
+    }
+}
+createTopics();
+$(".topic-button").on("click", function () {
+    var userSearch = $("input").val();
+    $("#displayGiphs").empty();
+    var buttonText = $(this).text();
+    console.log(buttonText);
+    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + buttonText + '?Riverdale' + apiKey;
 
-   }
-
-   $("#search-button").on("click", function () {
-       var apiKey = "&api_key=dc6zaTOxFJmzC";
-
-       var userSearch = $("input").val();
-       $("#displayGiphs").empty();
-
-       // userSearch = userSearch.split(" ");
-       console.log(userSearch);
-
-
-
-       queryURL = "http://api.giphy.com/v1/gifs/search?q=" + userSearch + apiKey;
-
-       $.ajax({
-           url: queryURL,
-           method: "GET"
-       }).then(function (response) {
-
-           //  add 25 images based on search
-           for (var i = 0; i < 26; i++) {
-               var pic = response.data[i].images.fixed_width.url;
-               var $i = $("<img>");
-               var contentImage = $i.attr("src", pic);
-               $("#displayGiphs").append(contentImage);
-           }
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        for (var i = 0; i < 26; i++) {
+            var pic = response.data[i].images.fixed_width.url;
+            var $i = $("<img>");
+            var contentImage = $i.attr("src", pic);
+            $("#displayGiphs").append(contentImage);
+        }
+    });
+});
 
 
-            // freeze giph
-        //    $("#displayGiphs").on("click", function () {
-        //        console.log("click");
-        //        pic = response.data[0].images.fixed_width_still.url;
-        //        console.log(pic);
-        //        contentImage = $("<img>").attr("src", pic);
-        //        $("#displayGiphs").empty(contentImage);
-        //        $("#displayGiphs").append(contentImage);
-        //    })
+$("#search-button").on("click", function () {
+    var userSearch = $("input").val();
+    $("#displayGiphs").empty();
+    console.log(userSearch);
+    queryURL = "http://api.giphy.com/v1/gifs/search?q=" + userSearch + apiKey;
 
-
-       });
-
-
-
-   });
-
-
-
-   //    $(".topics").on("click", function () {
-   //        $("#displayGiphs").empty();
-
-   //        var apiKey = "&api_key=dc6zaTOxFJmzC";
-   //        var userSearch = $(this).attr("data-person");
-   //        var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + userSearch + apiKey;
-
-   //        $.ajax({
-   //            url: queryURL,
-   //            method: "GET"
-   //        }).then(function (response) {
-
-   //            //  add 25 images based on search
-   //            for (var i = 0; i < 26; i++) {
-   //                var pic = response.data[i].images.fixed_width.url;
-   //                var contentImage = $("<img>").attr("src", pic);
-   //                $("#displayGiphs").append(contentImage);
-   //            }
-
-
-
-   //        });
-   //    });
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        for (var i = 0; i < 26; i++) {
+            var pic = response.data[i].images.fixed_width.url;
+            var $i = $("<img>");
+            var contentImage = $i.attr("src", pic);
+            $("#displayGiphs").append(contentImage);
+        }
+    });
+});
